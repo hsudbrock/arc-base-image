@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "arc-base-image-chart.fullname" . }}-test-connection"
+  labels:
+    {{- include "arc-base-image-chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "arc-base-image-chart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

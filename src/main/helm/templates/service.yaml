@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "arc-base-image-chart.fullname" . }}
+  labels:
+    {{- include "arc-base-image-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "arc-base-image-chart.selectorLabels" . | nindent 4 }}
