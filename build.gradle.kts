@@ -99,7 +99,8 @@ tasks.register("helmPush") {
 }
 
 tasks.named<BootBuildImage>("bootBuildImage") {
-	if (project.hasProperty("REGISTRY_URL")) {
+	val sysRegUrl = System.getenv("REGISTRY_URL")
+	if (project.hasProperty("REGISTRY_URL") || sysRegUrl != null) {
 		println("registry url is explicitly set")
 		val registryUrl = getProperty("REGISTRY_URL")
 		val registryUsername = getProperty("REGISTRY_USERNAME")
