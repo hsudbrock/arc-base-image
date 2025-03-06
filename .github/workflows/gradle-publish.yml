@@ -48,5 +48,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push image to GitHub Packages
         run: ./gradlew bootBuildImage
-      # - name: Publish Chart to GitHub Packages
-      #   run: ./gradlew helmPush
+      - name: Publish Chart to GitHub Packages
+        run: ./gradlew helmPush
