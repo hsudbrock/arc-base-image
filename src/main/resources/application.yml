@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
+# SPDX-License-Identifier: Apache-2.0
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL
+  main:
+    banner-mode: off
+    web-application-type: reactive
+  reactor:
+    context-propagation: auto
+  graphql:
+    graphiql:
+      enabled: true
+
+server:
+  port: 8500
+
+arc:
+  cors:
+    enabled: true
+  scripts:
+    enabled: true
+    folder: agents
+    hotReload:
+      enable: true
+      delay: PT1S
+  chat:
+    ui:
+      enabled: true
+  subscriptions:
+    events:
+      enable: true
+
+logging:
+  level:
+    root: WARN
+    org.eclipse.lmos.arc: DEBUG
+    org.eclipse.lmos.arc.app: WARN
+    ArcDSL: DEBUG
+
+management:
+  server:
+    port: 9100
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: prometheus,metrics,info,health
+  endpoint:
+    metrics:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
