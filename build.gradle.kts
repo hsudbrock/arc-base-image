@@ -5,6 +5,8 @@ plugins {
 	kotlin("plugin.spring") version "2.1.10"
 	id("org.springframework.boot") version "3.4.3"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("com.citi.helm") version "2.2.0"
+	id("com.citi.helm-publish") version "2.2.0"
 }
 
 group = "de.hsudbrock"
@@ -49,8 +51,56 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+helm {
+	charts {
+		create("main") {
+			chartName.set("${rootProject.name}-chart")
+			chartVersion.set("${project.version}")
+			sourceDir.set(file("src/main/helm"))
+		}
+	}
+}
+
+tasks.register("replaceChartVersion") {
+	doLast {
+		val chartFile = file("src/main/helm/Chart.yaml")
+		val content = chartFile.readText()
+		val updatedContent = content.replace("\${chartVersion}", "${project.version}")
+		chartFile.writeText(updatedContent)
+	}
+}
+
+tasks.register("helmPush") {
+	description = "Push Helm chart to OCI registry"
+	group = "helm"
+	dependsOn(tasks.named("helmPackageMainChart"))
+
+	doLast {
+		val registryUrl = getProperty("REGISTRY_URL")
+		val registryUsername = getProperty("REGISTRY_USERNAME")
+		val registryPassword = getProperty("REGISTRY_PASSWORD")
+		val registryNamespace = getProperty("REGISTRY_NAMESPACE")
+
+		helm.execHelm("registry", "login") {
+			option("-u", registryUsername)
+			option("-p", registryPassword)
+			args(registryUrl)
+		}
+
+		helm.execHelm("push") {
+			args(tasks.named("helmPackageMainChart").get().outputs.files.singleFile.toString())
+			args("oci://$registryUrl/$registryNamespace")
+		}
+
+		helm.execHelm("registry", "logout") {
+			args(registryUrl)
+		}
+	}
+}
+
 tasks.named<BootBuildImage>("bootBuildImage") {
 	if (project.hasProperty("REGISTRY_URL")) {
+		println("registry url is explicitly set")
 		val registryUrl = getProperty("REGISTRY_URL")
 		val registryUsername = getProperty("REGISTRY_USERNAME")
 		val registryPassword = getProperty("REGISTRY_PASSWORD")
@@ -66,6 +116,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
 			}
 		}
 	} else {
+		println("registry url is not explicitly set")
 		imageName.set("${rootProject.name}:${project.version}")
 		publish = false
 	}
