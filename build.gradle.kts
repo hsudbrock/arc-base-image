@@ -28,6 +28,7 @@ dependencies {
 	val arcVersion = "0.1.0-SNAPSHOT"
 	val langchain4jVersion = "0.36.2"
 
+	implementation("org.eclipse.lmos:arc-spring-boot-starter:$arcVersion")
 	implementation("org.eclipse.lmos:arc-graphql-spring-boot-starter:$arcVersion")
 
 	// Langchain4j
