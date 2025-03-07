@@ -29,7 +29,6 @@ dependencies {
 	val langchain4jVersion = "0.36.2"
 
 	implementation("org.eclipse.lmos:arc-graphql-spring-boot-starter:$arcVersion")
-	implementation("org.eclipse.lmos:arc-graphql-spring-boot-starter:$arcVersion")
 
 	// Langchain4j
 	implementation("dev.langchain4j:langchain4j-bedrock:$langchain4jVersion")
@@ -101,7 +100,6 @@ tasks.register("helmPush") {
 tasks.named<BootBuildImage>("bootBuildImage") {
 	val sysRegUrl = System.getenv("REGISTRY_URL")
 	if (project.hasProperty("REGISTRY_URL") || sysRegUrl != null) {
-		println("registry url is explicitly set")
 		val registryUrl = getProperty("REGISTRY_URL")
 		val registryUsername = getProperty("REGISTRY_USERNAME")
 		val registryPassword = getProperty("REGISTRY_PASSWORD")
@@ -117,7 +115,6 @@ tasks.named<BootBuildImage>("bootBuildImage") {
 			}
 		}
 	} else {
-		println("registry url is not explicitly set")
 		imageName.set("${rootProject.name}:${project.version}")
 		publish = false
 	}
