@@ -61,10 +61,10 @@ spec:
           {{- end }}
           volumeMounts:
             - name: config-volume
-              mountPath: /config/application.yml
+              mountPath: /workspace/config/application.yml
               subPath: application.yml
             - name: agents-volume
-              mountPath: /agents
+              mountPath: /workspace/agents
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
