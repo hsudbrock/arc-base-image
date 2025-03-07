@@ -13,7 +13,7 @@ spring:
       enabled: true
 
 server:
-  port: 8500
+  port: 8080
 
 arc:
   cors:
@@ -40,7 +40,7 @@ logging:
 
 management:
   server:
-    port: 9100
+    port: 9090
   endpoints:
     web:
       base-path: /
