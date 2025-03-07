@@ -1,6 +1,12 @@
-# Default values for arc-base-image-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+arc:
+  config: |-
+    arc:
+      ai:
+        clients:
+          - id: GPT-4o
+            model-name: gpt-4o
+            api-key: the-openai-key
+            client: openai
 
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 1
