@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "arc-base-image-chart.fullname" . }}
+  name: {{ include "arc-base-image-chart.fullname" . }}-config
   labels:
     {{- include "arc-base-image-chart.labels" . | nindent 4 }}
 data:

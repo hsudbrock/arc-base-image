@@ -64,6 +64,8 @@ spec:
             - name: config-volume
               mountPath: /config/application.yml
               subPath: application.yml
+            - name: agents-volume
+              mountPath: /agents
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -71,7 +73,10 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ .Release.Name }}
+            name: {{ .Release.Name }}-config
+        - name: agents-volume
+          configMap:
+            name: {{ .Release.Name }}-agents
       {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
