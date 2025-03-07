@@ -71,10 +71,10 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ .Release.Name }}-config
+            name: {{ include "arc-base-image-chart.fullname" . }}-config
         - name: agents-volume
           configMap:
-            name: {{ .Release.Name }}-agents
+            name: {{ include "arc-base-image-chart.fullname" . }}-agents
       {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
