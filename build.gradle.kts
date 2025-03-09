@@ -32,6 +32,10 @@ dependencies {
 	implementation("org.eclipse.lmos:arc-spring-boot-starter:$arcVersion")
 	implementation("org.eclipse.lmos:arc-graphql-spring-boot-starter:$arcVersion")
 
+	implementation("org.eclipse.lmos:arc-reader-pdf:$arcVersion")
+	implementation("org.eclipse.lmos:arc-reader-html:$arcVersion")
+	implementation("org.eclipse.lmos:arc-assistants:$arcVersion")
+
 	// Langchain4j
 	implementation("dev.langchain4j:langchain4j-bedrock:$langchain4jVersion")
 	implementation("dev.langchain4j:langchain4j-google-ai-gemini:$langchain4jVersion")
