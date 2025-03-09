@@ -32,19 +32,6 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      initContainers:
-        - name: download-maven-dependencies
-          image: maven:3.8.6-openjdk-11
-          command:
-            - "sh"
-            - "-c"
-            - >
-              for dep in {{- range .Values.maven.dependencies }} "{{ . }}" {{- end }}; do
-                mvn dependency:copy -Dartifact=$dep -DoutputDirectory=/tmp/libs;
-              done && echo "Dependencies copied successfully"
-          volumeMounts:
-            - name: additional-libs-volume
-              mountPath: /tmp/libs
       containers:
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}
@@ -53,11 +40,6 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - sh
-            - -c
-            - |
-              cp -r /var/libs/* /workspace/BOOT-INF/lib/ && exec /cnb/process/web
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -82,8 +64,6 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
-            - name: additional-libs-volume
-              mountPath: /tmp/libs
             - name: config-volume
               mountPath: /workspace/config/application.yml
               subPath: application.yml
@@ -93,8 +73,6 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
       volumes:
-        - name: additional-libs-volume
-          emptyDir: { }
         - name: config-volume
           configMap:
             name: {{ if .Values.arc.config.enabled }}{{ include "arc-base-image-chart.fullname" . }}-config{{ else }}{{ .Values.arc.config.externalConfig }}{{ end }}

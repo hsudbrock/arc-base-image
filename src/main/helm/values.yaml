@@ -1,7 +1,3 @@
-maven:
-  dependencies:
-    - "com.google.guava:guava:33.4.0-jre"
-
 lmos:
   enabled: false
   description: "My agent description"
