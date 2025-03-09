@@ -1,0 +1,20 @@
+{{- if .Values.lmos.enabled }}
+apiVersion: lmos.eclipse/v1
+kind: Agent
+metadata:
+  name: {{ include "arc-base-image-chart.fullname" . }}
+  labels:
+    {{- include "arc-base-image-chart.labels" . | nindent 4 }}
+spec:
+  description: {{ .Values.lmos.description | quote }}
+  supportedChannels:
+    {{- range .Values.lmos.supportedChannels }}
+    - {{ . | quote }}
+    {{- end }}
+  providedCapabilities:
+    {{- range .Values.lmos.providedCapabilities }}
+    - name: {{ .name | quote }}
+      version: {{ .version | quote }}
+      description: {{ .description | quote }}
+    {{- end }}
+{{- end }}

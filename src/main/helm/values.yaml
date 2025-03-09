@@ -1,3 +1,13 @@
+lmos:
+  enabled: false
+  description: "My agent description"
+  supportedChannels:
+    - web
+  providedCapabilities:
+    - name: some-capability
+      version: "1.0"
+      description: "Some capability description"
+
 arc:
   config: |-
     arc:
