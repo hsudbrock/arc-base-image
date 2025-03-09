@@ -1,3 +1,4 @@
+{{- if .Values.arc.config.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,4 +7,5 @@ metadata:
     {{- include "arc-base-image-chart.labels" . | nindent 4 }}
 data:
   application.yml: |-
-    {{- .Values.arc.config | nindent 4 }}
+    {{- .Values.arc.config.content | nindent 4 }}
+{{- end }}

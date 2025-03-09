@@ -75,7 +75,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ include "arc-base-image-chart.fullname" . }}-config
+            name: {{ if .Values.arc.config.enabled }}{{ include "arc-base-image-chart.fullname" . }}-config{{ else }}{{ .Values.arc.config.externalConfig }}{{ end }}
         - name: agents-volume
           configMap:
             name: {{ include "arc-base-image-chart.fullname" . }}-agents

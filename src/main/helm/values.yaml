@@ -9,14 +9,17 @@ lmos:
       description: "Some capability description"
 
 arc:
-  config: |-
-    arc:
-      ai:
-        clients:
-          - id: GPT-4o
-            model-name: gpt-4o
-            api-key: the-openai-key
-            client: openai
+  config:
+    enabled: false
+    externalConfig: arc-config
+    content: |-
+      arc:
+        ai:
+          clients:
+            - id: GPT-4o
+              model-name: gpt-4o
+              api-key: the-openai-key
+              client: openai
 
   agents:
 
