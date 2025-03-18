@@ -42,6 +42,9 @@ dependencies {
 	implementation("dev.langchain4j:langchain4j-ollama:$langchain4jVersion")
 	implementation("dev.langchain4j:langchain4j-open-ai:$langchain4jVersion")
 
+	// Kubernetes
+	implementation("io.fabric8:kubernetes-client:7.1.0")
+
 	// Spring Boot
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 }

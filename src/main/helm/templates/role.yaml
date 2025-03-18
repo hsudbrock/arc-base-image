@@ -1,0 +1,25 @@
+{{- if .Values.permitK8sAccess }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "arc-base-image-chart.fullname" . }}-helm-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps", "secrets", "persistentvolumeclaims"]
+    verbs: ["create", "delete", "get", "list", "patch", "update"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "daemonsets", "statefulsets", "replicasets"]
+    verbs: ["create", "delete", "get", "list", "patch", "update"]
+  - apiGroups: ["batch"]
+    resources: ["jobs", "cronjobs"]
+    verbs: ["create", "delete", "get", "list", "patch", "update"]
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["roles", "rolebindings"]
+    verbs: ["create", "delete", "get", "list", "patch", "update"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses", "networkpolicies"]
+    verbs: ["create", "delete", "get", "list", "patch", "update"]
+  - apiGroups: ["policy"]
+    resources: ["poddisruptionbudgets"]
+    verbs: ["create", "delete", "get", "list", "patch", "update"]
+{{- end }}
